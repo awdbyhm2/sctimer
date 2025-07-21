@@ -4,63 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cubing Timer</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: #0ff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      overflow: hidden;
-    }
-
-    .container {
-      text-align: center;
-      padding: 20px;
-      border: 2px solid #0ff;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.8);
-      box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-      color: #ff00ff;
-      text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-    }
-
-    .scramble {
-      font-size: 1.5em;
-      margin-bottom: 20px;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-    }
-
-    .timer {
-      font-size: 4em;
-      font-weight: bold;
-      margin: 20px 0;
-      color: #ff00ff;
-      text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-    }
-
-    .hint {
-      font-size: 0.9em;
-      color: #aaa;
-      text-shadow: 0 0 5px #0ff;
-    }
-
-    .hint strong {
-      color: #ff00ff;
-      text-shadow: 0 0 10px #ff00ff;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
@@ -69,78 +13,6 @@
     <div id="timer" class="timer">0.00</div>
     <p class="hint">Hold <strong>Shift + Space</strong> to Start/Stop</p>
   </div>
-  <script>
-    const timerDisplay = document.getElementById("timer");
-    const scrambleDisplay = document.getElementById("scramble");
-
-    let startTime = null;
-    let timerInterval = null;
-    let running = false;
-
-    const moves = ["U", "D", "L", "R", "F", "B"];
-    const suffixes = ["", "'", "2"];
-
-    function generateScramble(length = 20) {
-      let scramble = [];
-      let lastMove = "";
-
-      while (scramble.length < length) {
-        const move = moves[Math.floor(Math.random() * moves.length)];
-        const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-        if (move !== lastMove) {
-          scramble.push(move + suffix);
-          lastMove = move;
-        }
-      }
-
-      return scramble.join(" ");
-    }
-
-    function updateScramble() {
-      scrambleDisplay.textContent = generateScramble();
-    }
-
-    function updateTimerDisplay(ms) {
-      let seconds = ms / 1000;
-      timerDisplay.textContent = seconds.toFixed(2);
-    }
-
-    function startTimer() {
-      startTime = Date.now();
-      timerInterval = setInterval(() => {
-        const elapsed = Date.now() - startTime;
-        updateTimerDisplay(elapsed);
-      }, 10);
-    }
-
-    function stopTimer() {
-      clearInterval(timerInterval);
-      const finalTime = Date.now() - startTime;
-      updateTimerDisplay(finalTime);
-      running = false;
-      updateScramble();
-    }
-
-    let keysPressed = new Set();
-
-    window.addEventListener("keydown", (e) => {
-      keysPressed.add(e.key);
-
-      if (keysPressed.has("Shift") && keysPressed.has(" ")) {
-        if (!running) {
-          running = true;
-          startTimer();
-        } else {
-          stopTimer();
-        }
-      }
-    });
-
-    window.addEventListener("keyup", (e) => {
-      keysPressed.delete(e.key);
-    });
-
-    updateScramble();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
